@@ -10,6 +10,7 @@ import {
   Book,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import dhruv2Img from "../../assets/projects/dhruv2.jpeg";
 
 export function AboutPage() {
   const education = [
@@ -94,7 +95,7 @@ export function AboutPage() {
                 />
 
                 <ImageWithFallback
-                  src="dist/assets/dhruv2.jpeg"
+                  src={dhruv2Img}
                   alt="About Dhruv Chand"
                   className="img-fluid rounded-4 shadow-lg position-relative"
                   style={{ zIndex: 1 }}

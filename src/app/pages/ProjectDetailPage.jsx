@@ -10,6 +10,10 @@ import {
   Target,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import womenImg from "../../assets/projects/women.png";
+import currencyImg from "../../assets/projects/currency.png";
+import textImg from "../../assets/projects/text.png";
+import countryImg from "../../assets/projects/country-data.svg";
 
 export function ProjectDetailPage() {
   const { id } = useParams();
@@ -20,7 +24,7 @@ export function ProjectDetailPage() {
     "Women Security Alert Website": {
       title: "Be secure, Be safe",
       description: "A fully responsive security alert platform built with React and Bootstrap.",
-      image: "/dist/assets/women.png",
+      image: womenImg,
       technologies: ["React", "Bootstrap", "CSS3", "JavaScript"],
       github: "#",
       live: "#",
@@ -34,7 +38,7 @@ export function ProjectDetailPage() {
     "Currency Converter Website": {
       title: "Convert your currency",
       description: "An attractive currency converter website showcasing web design skills.",
-      image: "/dist/assets/currency.png",
+      image: currencyImg,
       technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
       github: "#",
       live: "https://dccurrencyconverter.netlify.app/",
@@ -48,7 +52,7 @@ export function ProjectDetailPage() {
     "Text Editor Website": {
       title: "Edit Your Text",
       description: "Interactive web design mockup demonstrating modern UI/UX principles.",
-      image: "/dist/assets/text.png",
+      image: textImg,
       technologies: ["React", "JSX", "Tailwind CSS", "Figma"],
       github: "#",
       live: "https://dctexteditor.netlify.app/",
@@ -62,7 +66,7 @@ export function ProjectDetailPage() {
     "Country Data Search Website": {
       title: "Search the Country and their data",
       description: "A beautiful landing page with smooth animations showing country data.",
-      image: "/dist/assets/country.png",
+      image: countryImg,
       technologies: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
       github: "#",
       live: "https://dccountrysearch.netlify.app/",

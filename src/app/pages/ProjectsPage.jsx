@@ -11,6 +11,10 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { ExternalLink, Github, Search, Sparkles } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import womenImg from "../../assets/projects/women.png";
+import currencyImg from "../../assets/projects/currency.png";
+import textImg from "../../assets/projects/text.png";
+import countryImg from "../../assets/projects/country.png";
 
 export function ProjectsPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,7 +26,7 @@ export function ProjectsPage() {
       title: "Be secure, Be safe",
       description:
         "A fully responsive security alert platform built with React and Bootstrap. Features include login page, regestration page, SOS signalk concept.",
-      image: "/dist/assets/women.png",
+      image: womenImg,
       technologies: ["React", "Bootstrap", "CSS3", "JavaScript"],
       category: "React",
       github: "#",
@@ -34,7 +38,7 @@ export function ProjectsPage() {
       title: "Convert your currency",
       description:
         "An attractive currency converter website showcasing web design skills. Built with HTML, CSS, and JavaScript with smooth animations and responsive design.",
-      image: "/dist/assets/currency.png",
+      image: currencyImg,
       technologies: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
       category: "HTML/CSS",
       github: "#",
@@ -46,7 +50,7 @@ export function ProjectsPage() {
       title: "Edit Your Text",
       description:
         "Interactive web design mockup demonstrating modern UI/UX principles. Features dynamic components and mobile-first design approach.",
-      image: "/dist/assets/text.png",
+      image: textImg,
       technologies: ["React", "JSX", "Tailwind CSS", "Figma"],
       category: "React",
       github: "#",
@@ -58,7 +62,7 @@ export function ProjectsPage() {
       title: "Search the Country and thier data",
       description:
         "A beautiful landing page with smooth scroll animations and modern design. Built using Bootstrap and custom CSS.",
-      image: "/dist/assets/country.png",
+      image: countryImg,
       technologies: ["HTML5", "CSS3", "Bootstrap", "JavaScript"],
       category: "HTML/CSS",
       github: "#",

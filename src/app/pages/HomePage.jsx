@@ -10,6 +10,7 @@ import {
   Palette,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import dhruv1Img from "../../assets/projects/dhruv1.jpeg";
 
 export function HomePage() {
   return (
@@ -217,8 +218,8 @@ export function HomePage() {
                 />
 
                 <ImageWithFallback
-                  src="dist/assets/dhruv1.jpeg"
-                    alt="Dhruv Chand - Web Developer"
+                  src={dhruv1Img}
+                  alt="Dhruv Chand - Web Developer"
                   className="img-fluid rounded-4 shadow-lg position-relative"
                   style={{ zIndex: 1 }}
                 />
