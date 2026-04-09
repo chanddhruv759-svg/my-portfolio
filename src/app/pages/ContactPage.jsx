@@ -20,17 +20,41 @@ export function ContactPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState("");
 
-  const handleSubmit = (e) => {
+  // ✅ UPDATED SUBMIT FUNCTION (Web3Forms)
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setResult("Sending...");
 
-    // Simulate form submission
-    setTimeout(() => {
-      alert("Thank you for your message! I will get back to you soon. 💌");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      setIsSubmitting(false);
-    }, 1000);
+    const formDataObj = new FormData();
+    formDataObj.append("access_key", "78b7d500-bb30-469a-8770-46116e67b984");
+    formDataObj.append("name", formData.name);
+    formDataObj.append("email", formData.email);
+    formDataObj.append("subject", formData.subject);
+    formDataObj.append("message", formData.message);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formDataObj,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setResult("✅ Message sent successfully!");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setResult("❌ Something went wrong.");
+      }
+    } catch (error) {
+      console.error(error);
+      setResult("❌ Error sending message.");
+    }
+
+    setIsSubmitting(false);
   };
 
   const handleChange = (e) => {
@@ -52,7 +76,7 @@ export function ContactPage() {
       icon: <Phone size={28} />,
       title: "Phone",
       value: "+91 9888136950",
-      link: "tel:+91",
+      link: "tel:+919888136950", // ✅ fixed
       color: "#F08080",
     },
     {
@@ -80,350 +104,135 @@ export function ContactPage() {
   ];
 
   return (
-    <div
-      style={{
-        paddingTop: "80px",
-        backgroundColor: "var(--custom-bg)",
-        minHeight: "100vh",
-      }}
-    >
-      {/* Hero Section */}
+    <div style={{ paddingTop: "80px", backgroundColor: "var(--custom-bg)", minHeight: "100vh" }}>
+      
+      {/* HERO */}
       <section
-        className="py-5 position-relative overflow-hidden"
+        className="py-5 text-center"
         style={{
           background: "linear-gradient(135deg, #FF6B6B 0%, #F08080 100%)",
-          color: "#ffffff",
+          color: "#fff",
         }}
       >
         <Container>
-          <div className="text-center">
-            <div
-              className="d-inline-flex align-items-center gap-2 px-4 py-2 rounded-pill mb-3"
-              style={{
-                backgroundColor: "rgba(255, 255, 255, 0.2)",
-                border: "1px solid rgba(255, 255, 255, 0.3)",
-              }}
-            >
-              <Sparkles size={18} />
-              <span style={{ fontSize: "0.9rem", fontWeight: "500" }}>
-                Let's Connect
-              </span>
-            </div>
-            <h1 className="display-4 mb-3" style={{ fontWeight: "700" }}>
-              Get In Touch
-            </h1>
-            <p
-              className="lead mb-0"
-              style={{ maxWidth: "700px", margin: "0 auto", opacity: 0.95 }}
-            >
-              Have a question or want to work together? I'd love to hear from
-              you! Feel free to reach out and I'll respond as soon as possible.
-            </p>
-          </div>
+          <Sparkles size={20} />
+          <h1 className="display-4 fw-bold">Get In Touch</h1>
+          <p className="lead">
+            Have a question or want to work together? I'd love to hear from you!
+          </p>
         </Container>
       </section>
 
-      {/* Contact Content */}
+      {/* CONTENT */}
       <section className="py-5">
         <Container>
           <Row className="g-4">
-            {/* Contact Info Cards */}
+
+            {/* LEFT SIDE */}
             <Col lg={4}>
-              <div className="mb-4">
-                <h2 className="h4 mb-4" style={{ color: "var(--custom-text)" }}>
-                  Contact Information
-                </h2>
-                <div className="space-y-3">
-                  {contactInfo.map((info, index) => (
-                    <Card
-                      key={index}
-                      className="border-0 rounded-4 mb-3"
-                      style={{
-                        backgroundColor: "var(--custom-bg-secondary)",
-                        boxShadow: "0 2px 15px rgba(0, 0, 0, 0.05)",
-                        transition: "all 0.3s ease",
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.transform = "translateY(-5px)";
-                        e.currentTarget.style.boxShadow =
-                          "0 8px 25px rgba(255, 107, 107, 0.15)";
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.transform = "translateY(0)";
-                        e.currentTarget.style.boxShadow =
-                          "0 2px 15px rgba(0, 0, 0, 0.05)";
-                      }}
-                    >
-                      <Card.Body className="p-4">
-                        <div className="d-flex align-items-center gap-3">
-                          <div
-                            className="p-3 rounded-circle"
-                            style={{
-                              backgroundColor: `${info.color}15`,
-                              color: info.color,
-                            }}
-                          >
-                            {info.icon}
-                          </div>
-                          <div className="flex-grow-1">
-                            <h5
-                              className="mb-1 h6"
-                              style={{ color: "var(--custom-text)" }}
-                            >
-                              {info.title}
-                            </h5>
-                            {info.link ? (
-                              <a
-                                href={info.link}
-                                className="text-decoration-none"
-                                style={{
-                                  color: "var(--custom-text-muted)",
-                                  fontSize: "0.95rem",
-                                }}
-                              >
-                                {info.value}
-                              </a>
-                            ) : (
-                              <p
-                                className="mb-0"
-                                style={{
-                                  color: "var(--custom-text-muted)",
-                                  fontSize: "0.95rem",
-                                }}
-                              >
-                                {info.value}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </Card.Body>
-                    </Card>
+              {contactInfo.map((info, i) => (
+                <Card key={i} className="mb-3 border-0 shadow-sm">
+                  <Card.Body className="d-flex align-items-center gap-3">
+                    <div style={{ color: info.color }}>{info.icon}</div>
+                    <div>
+                      <h6>{info.title}</h6>
+                      {info.link ? (
+                        <a href={info.link}>{info.value}</a>
+                      ) : (
+                        <p>{info.value}</p>
+                      )}
+                    </div>
+                  </Card.Body>
+                </Card>
+              ))}
+
+              {/* SOCIAL */}
+              <Card className="border-0 mt-3">
+                <Card.Body className="d-flex gap-3">
+                  {socialLinks.map((s, i) => (
+                    <a key={i} href={s.link} target="_blank" rel="noreferrer">
+                      {s.icon}
+                    </a>
                   ))}
-                </div>
-              </div>
-
-              {/* Social Links */}
-              <Card
-                className="border-0 rounded-4"
-                style={{
-                  background:
-                    "linear-gradient(135deg, var(--custom-bg-secondary) 0%, var(--custom-bg) 100%)",
-                  boxShadow: "0 2px 15px rgba(0, 0, 0, 0.05)",
-                }}
-              >
-                <Card.Body className="p-4">
-                  <h3 className="h6 mb-3" style={{ color: "var(--custom-text)" }}>
-                    Connect on Social Media
-                  </h3>
-                  <div className="d-flex gap-3">
-                    {socialLinks.map((social, index) => (
-                      <a
-                        key={index}
-                        href={social.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="d-flex flex-column align-items-center justify-content-center rounded-4 flex-grow-1 text-decoration-none"
-                        style={{
-                          padding: "20px",
-                          backgroundColor: `${social.color}10`,
-                          color: social.color,
-                          transition: "all 0.3s ease",
-                        }}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.backgroundColor = social.color;
-                          e.currentTarget.style.color = "#ffffff";
-                          e.currentTarget.style.transform = "translateY(-5px)";
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.backgroundColor = `${social.color}10`;
-                          e.currentTarget.style.color = social.color;
-                          e.currentTarget.style.transform = "translateY(0)";
-                        }}
-                      >
-                        {social.icon}
-                        <span className="mt-2 small">{social.name}</span>
-                      </a>
-                    ))}
-                  </div>
-                </Card.Body>
-              </Card>
-
-              {/* Decorative Card */}
-              <Card
-                className="border-0 rounded-4 mt-4"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #FF6B6B 0%, #F08080 100%)",
-                  color: "#ffffff",
-                }}
-              >
-                <Card.Body className="p-4 text-center">
-                  <Heart
-                    size={40}
-                    fill="currentColor"
-                    className="mb-3"
-                    style={{ opacity: 0.9 }}
-                  />
-                  <h4 className="h6 mb-2">Let's Create Together</h4>
-                  <p className="mb-0 small" style={{ opacity: 0.95 }}>
-                    I'm always open to discussing new projects, creative ideas,
-                    or opportunities to be part of your vision.
-                  </p>
                 </Card.Body>
               </Card>
             </Col>
 
-            {/* Contact Form */}
+            {/* FORM */}
             <Col lg={8}>
-              <Card
-                className="border-0 rounded-4"
-                style={{
-                  backgroundColor: "var(--custom-bg-secondary)",
-                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
-                }}
-              >
-                <Card.Body className="p-5">
-                  <h2 className="h4 mb-4" style={{ color: "var(--custom-text)" }}>
-                    Send Me a Message
-                  </h2>
+              <Card className="border-0 shadow">
+                <Card.Body>
+                  <h4 className="mb-4">Send Message</h4>
+
                   <Form onSubmit={handleSubmit}>
                     <Row>
-                      <Col md={6} className="mb-4">
-                        <Form.Group>
-                          <Form.Label
-                            style={{ color: "var(--custom-text)", fontWeight: "500" }}
-                          >
-                            Your Name{" "}
-                            <span style={{ color: "#FF6B6B" }}>*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            placeholder="Enter your name"
-                            required
-                            className="rounded-3 bg-transparent text-foreground"
-                            style={{
-                              padding: "12px 16px",
-                              border: "2px solid var(--custom-border)",
-                              backgroundColor: "var(--custom-bg)",
-                              color: "var(--custom-text)",
-                            }}
-                          />
-                        </Form.Group>
+                      <Col md={6}>
+                        <Form.Control
+                          type="text"
+                          name="name"
+                          placeholder="Name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="mb-3"
+                        />
                       </Col>
-                      <Col md={6} className="mb-4">
-                        <Form.Group>
-                          <Form.Label
-                            style={{ color: "var(--custom-text)", fontWeight: "500" }}
-                          >
-                            Your Email{" "}
-                            <span style={{ color: "#FF6B6B" }}>*</span>
-                          </Form.Label>
-                          <Form.Control
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Enter your email"
-                            required
-                            className="rounded-3 bg-transparent text-foreground"
-                            style={{
-                              padding: "12px 16px",
-                              border: "2px solid var(--custom-border)",
-                              backgroundColor: "var(--custom-bg)",
-                              color: "var(--custom-text)",
-                            }}
-                          />
-                        </Form.Group>
+                      <Col md={6}>
+                        <Form.Control
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="mb-3"
+                        />
                       </Col>
                     </Row>
 
-                    <Form.Group className="mb-4">
-                      <Form.Label
-                        style={{ color: "var(--custom-text)", fontWeight: "500" }}
-                      >
-                        Subject <span style={{ color: "#FF6B6B" }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        placeholder="What's this about?"
-                        required
-                        className="rounded-3 bg-transparent text-foreground"
-                        style={{
-                          padding: "12px 16px",
-                          border: "2px solid var(--custom-border)",
-                          backgroundColor: "var(--custom-bg)",
-                          color: "var(--custom-text)",
-                        }}
-                      />
-                    </Form.Group>
+                    <Form.Control
+                      type="text"
+                      name="subject"
+                      placeholder="Subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      className="mb-3"
+                    />
 
-                    <Form.Group className="mb-4">
-                      <Form.Label
-                        style={{ color: "var(--custom-text)", fontWeight: "500" }}
-                      >
-                        Message <span style={{ color: "#FF6B6B" }}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        rows={6}
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        placeholder="Tell me more about your project or question..."
-                        required
-                        className="rounded-3 bg-transparent text-foreground"
-                        style={{
-                          padding: "12px 16px",
-                          border: "2px solid var(--custom-border)",
-                          backgroundColor: "var(--custom-bg)",
-                          color: "var(--custom-text)",
-                          resize: "vertical",
-                        }}
-                      />
-                    </Form.Group>
+                    <Form.Control
+                      as="textarea"
+                      rows={5}
+                      name="message"
+                      placeholder="Message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      className="mb-3"
+                    />
 
-                    <Button
-                      type="submit"
-                      size="lg"
-                      disabled={isSubmitting}
-                      className="w-100 rounded-pill d-flex align-items-center justify-content-center gap-2"
-                      style={{
-                        backgroundColor: "#FF6B6B",
-                        borderColor: "#FF6B6B",
-                        padding: "15px",
-                        fontWeight: "500",
-                        transition: "all 0.3s ease",
-                      }}
-                      onMouseOver={(e) => {
-                        if (!isSubmitting) {
-                          e.currentTarget.style.backgroundColor = "#FF4C4C";
-                          e.currentTarget.style.transform = "translateY(-2px)";
-                        }
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.backgroundColor = "#FF6B6B";
-                        e.currentTarget.style.transform = "translateY(0)";
-                      }}
-                    >
-                      {isSubmitting ? (
-                        <>Sending...</>
-                      ) : (
-                        <>
-                          <Send size={20} />
-                          Send Message
-                        </>
-                      )}
+                    <Button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? "Sending..." : "Send Message"}
                     </Button>
+
+                    {/* ✅ RESULT MESSAGE */}
+                    {result && (
+                      <p
+                        style={{
+                          marginTop: "15px",
+                          color: result.includes("successfully")
+                            ? "green"
+                            : "red",
+                        }}
+                      >
+                        {result}
+                      </p>
+                    )}
                   </Form>
                 </Card.Body>
               </Card>
             </Col>
+
           </Row>
         </Container>
       </section>
