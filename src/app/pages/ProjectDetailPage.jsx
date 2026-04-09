@@ -13,7 +13,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import womenImg from "../../assets/projects/women.png";
 import currencyImg from "../../assets/projects/currency.png";
 import textImg from "../../assets/projects/text.png";
-import countryImg from "../../assets/projects/country-data.svg";
+import countryImg from "../../assets/projects/country.png";
 
 export function ProjectDetailPage() {
   const { id } = useParams();

@@ -153,7 +153,7 @@ export function HomePage() {
                 </Button>
               </div>
 
-              <div className="d-flex gap-3">
+              {/* <div className="d-flex gap-3">
                 {[
                   { icon: <Github size={28} />, link: "https://github.com" },
                   {
@@ -200,7 +200,7 @@ export function HomePage() {
                     {social.icon}
                   </a>
                 ))}
-              </div>
+              </div> */}
             </Col>
 
             <Col lg={6} className="d-flex justify-content-center align-items-center mt-15 mt-lg-50">

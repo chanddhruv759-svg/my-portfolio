@@ -65,7 +65,7 @@
 .theme-btn:hover,
 .menu-btn:hover {
   background: #f28b82;
-  color: #2d282d; /* dark text on lighter coral background */
+  color: #fbf6fb; /* dark text on lighter coral background */
   box-shadow: 0 0 8px #f28b82;
 }
 
@@ -109,6 +109,16 @@
   box-shadow:
     0 4px 20px rgba(242, 139, 130, 0.9),
     inset 0 0 12px rgba(242, 139, 130, 1);
+}
+
+:root.light .nav-link,
+:root.light .theme-btn,
+:root.light .menu-btn {
+  color: #ffffff;
+}
+
+:root.light .nav-link.active-link {
+  color: #ffffff;
 }
 
 /* MOBILE RESPONSIVE */
