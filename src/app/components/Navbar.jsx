@@ -5,6 +5,7 @@ import { Sparkles, Moon, Sun } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 
 export function Navbar() {
+  const [expanded, setExpanded] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -16,6 +17,8 @@ export function Navbar() {
 
   return (
     <BSNavbar
+      expand="lg"
+      expanded={expanded}
       className="fixed-top shadow-sm"
       style={{
         backgroundColor: "var(--custom-bg-secondary)",
@@ -37,6 +40,7 @@ export function Navbar() {
           <Sparkles size={24} fill="#F08080" color="#F08080" />
           Dhruv Chand
         </BSNavbar.Brand>
+
         <div className="d-flex align-items-center gap-2">
           <button
             onClick={toggleTheme}
@@ -46,65 +50,77 @@ export function Navbar() {
           >
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
+          <BSNavbar.Toggle
+            aria-controls="basic-navbar-nav"
+            onClick={() => setExpanded((prev) => !prev)}
+            style={{ borderColor: "#FF6B6B" }}
+          />
         </div>
-        <Nav className="ms-auto d-flex">
-          <Nav.Link
-            as={Link}
-            to="/"
-            className="mx-2 px-3 py-2 rounded-pill"
-            style={{
-              color: isActive("/") ? "#ffffff" : "var(--custom-text-muted)",
-              backgroundColor: isActive("/") ? "#FF6B6B" : "transparent",
-              fontWeight: isActive("/") ? "600" : "500",
-              transition: "all 0.3s ease",
-            }}
-          >
-            Home
-          </Nav.Link>
-          <Nav.Link
-            as={Link}
-            to="/about"
-            className="mx-2 px-3 py-2 rounded-pill"
-            style={{
-              color: isActive("/about") ? "#ffffff" : "var(--custom-text-muted)",
-              backgroundColor: isActive("/about") ? "#FF6B6B" : "transparent",
-              fontWeight: isActive("/about") ? "600" : "500",
-              transition: "all 0.3s ease",
-            }}
-          >
-            About
-          </Nav.Link>
-          <Nav.Link
-            as={Link}
-            to="/projects"
-            className="mx-2 px-3 py-2 rounded-pill"
-            style={{
-              color: isActive("/projects") ? "#ffffff" : "var(--custom-text-muted)",
-              backgroundColor: isActive("/projects")
-                ? "#FF6B6B"
-                : "transparent",
-              fontWeight: isActive("/projects") ? "600" : "500",
-              transition: "all 0.3s ease",
-            }}
-          >
-            Projects
-          </Nav.Link>
-          <Nav.Link
-            as={Link}
-            to="/contact"
-            className="mx-2 px-3 py-2 rounded-pill"
-            style={{
-              color: isActive("/contact") ? "#ffffff" : "var(--custom-text-muted)",
-              backgroundColor: isActive("/contact")
-                ? "#FF6B6B"
-                : "transparent",
-              fontWeight: isActive("/contact") ? "600" : "500",
-              transition: "all 0.3s ease",
-            }}
-          >
-            Contact
-          </Nav.Link>
-        </Nav>
+
+        <BSNavbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link
+              as={Link}
+              to="/"
+              onClick={() => setExpanded(false)}
+              className="mx-2 px-3 py-2 rounded-pill"
+              style={{
+                color: isActive("/") ? "#ffffff" : "var(--custom-text-muted)",
+                backgroundColor: isActive("/") ? "#FF6B6B" : "transparent",
+                fontWeight: isActive("/") ? "600" : "500",
+                transition: "all 0.3s ease",
+              }}
+            >
+              Home
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/about"
+              onClick={() => setExpanded(false)}
+              className="mx-2 px-3 py-2 rounded-pill"
+              style={{
+                color: isActive("/about") ? "#ffffff" : "var(--custom-text-muted)",
+                backgroundColor: isActive("/about") ? "#FF6B6B" : "transparent",
+                fontWeight: isActive("/about") ? "600" : "500",
+                transition: "all 0.3s ease",
+              }}
+            >
+              About
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/projects"
+              onClick={() => setExpanded(false)}
+              className="mx-2 px-3 py-2 rounded-pill"
+              style={{
+                color: isActive("/projects") ? "#ffffff" : "var(--custom-text-muted)",
+                backgroundColor: isActive("/projects")
+                  ? "#FF6B6B"
+                  : "transparent",
+                fontWeight: isActive("/projects") ? "600" : "500",
+                transition: "all 0.3s ease",
+              }}
+            >
+              Projects
+            </Nav.Link>
+            <Nav.Link
+              as={Link}
+              to="/contact"
+              onClick={() => setExpanded(false)}
+              className="mx-2 px-3 py-2 rounded-pill"
+              style={{
+                color: isActive("/contact") ? "#ffffff" : "var(--custom-text-muted)",
+                backgroundColor: isActive("/contact")
+                  ? "#FF6B6B"
+                  : "transparent",
+                fontWeight: isActive("/contact") ? "600" : "500",
+                transition: "all 0.3s ease",
+              }}
+            >
+              Contact
+            </Nav.Link>
+          </Nav>
+        </BSNavbar.Collapse>
       </Container>
     </BSNavbar>
   );
