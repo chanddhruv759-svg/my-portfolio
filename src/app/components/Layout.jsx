@@ -6,7 +6,7 @@ export function Layout() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "var(--custom-bg)", color: "var(--custom-text)" }}>
       <Navbar />
-      <main>
+      <main style={{ paddingTop: "70px" }}>
         <Outlet />
       </main>
       <Footer />

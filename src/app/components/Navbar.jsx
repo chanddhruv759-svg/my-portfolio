@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { Container, Navbar as BSNavbar, Nav } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
-import { Sparkles, Moon, Sun } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router";
+import { Sparkles, Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
+import "../pages/navbar.css";
 
 export function Navbar() {
-  const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
@@ -15,97 +15,52 @@ export function Navbar() {
     return false;
   };
 
-  // Close navbar on route change (important for mobile)
+  // Close menu on route change
   useEffect(() => {
-    setExpanded(false);
+    setOpen(false);
   }, [location.pathname]);
 
   return (
-    <BSNavbar
-      expand="lg"
-      expanded={expanded}
-      onToggle={(val) => setExpanded(val)}
-      fixed="top"
-      className="shadow-sm"
-      style={{
-        backgroundColor: "var(--custom-bg-secondary)",
-        borderBottom: "1px solid var(--custom-border)",
-      }}
-    >
-      <Container>
-        {/* 🔹 Brand */}
-        <BSNavbar.Brand
-          as={Link}
-          to="/"
-          className="d-flex align-items-center gap-2"
-          style={{
-            fontSize: "1.4rem",
-            fontWeight: "600",
-            color: "#FF6B6B",
-            textDecoration: "none",
-          }}
-        >
-          <Sparkles size={22} fill="#FF6B6B" color="#FF6B6B" />
+    <nav className="nav-container">
+      <div className="nav-inner">
+        
+        {/* 🔹 Logo */}
+        <Link to="/" className="nav-logo">
+          <Sparkles size={22} />
           Dhruv Chand
-        </BSNavbar.Brand>
+        </Link>
 
-        {/* 🔹 Right Side Controls */}
-        <div className="d-flex align-items-center gap-2 ms-auto">
-          {/* Theme Button */}
-          <button
-            onClick={toggleTheme}
-            className="btn btn-link p-2"
-            style={{ color: "#FF6B6B" }}
-          >
+        {/* 🔹 Right Controls */}
+        <div className="nav-controls">
+          <button onClick={toggleTheme} className="theme-btn">
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
-          {/* Toggle Button */}
-          <BSNavbar.Toggle
-            aria-controls="navbar-nav"
-            style={{ borderColor: "#FF6B6B" }}
-          />
+          <button className="menu-btn" onClick={() => setOpen(!open)}>
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
+      </div>
 
-        {/* 🔹 Collapse Menu */}
-        <BSNavbar.Collapse
-          id="navbar-nav"
-          className="mt-3 mt-lg-0 p-3 p-lg-0"
-          style={{
-            backgroundColor: "var(--custom-bg-secondary)",
-            borderRadius: "10px",
-          }}
-        >
-          <Nav className="ms-auto text-center text-lg-start">
-            {[
-              { path: "/", label: "Home" },
-              { path: "/about", label: "About" },
-              { path: "/projects", label: "Projects" },
-              { path: "/contact", label: "Contact" },
-            ].map((item) => (
-              <Nav.Link
-                key={item.path}
-                as={Link}
-                to={item.path}
-                onClick={() => setExpanded(false)}
-                className="mx-lg-2 my-2 my-lg-0 px-3 py-2 rounded-pill"
-                style={{
-                  color: isActive(item.path)
-                    ? "#fff"
-                    : "var(--custom-text-muted)",
-                  backgroundColor: isActive(item.path)
-                    ? "#FF6B6B"
-                    : "transparent",
-                  fontWeight: isActive(item.path) ? "600" : "500",
-                  transition: "all 0.3s ease",
-                }}
-              >
-                {item.label}
-              </Nav.Link>
-            ))}
-          </Nav>
-        </BSNavbar.Collapse>
-      </Container>
-    </BSNavbar>
+      {/* 🔥 Mobile + Desktop Menu */}
+      <div className={`nav-menu ${open ? "active" : ""}`}>
+        {[
+          { path: "/", label: "Home" },
+          { path: "/about", label: "About" },
+          { path: "/projects", label: "Projects" },
+          { path: "/contact", label: "Contact" },
+        ].map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className={`nav-link ${
+              isActive(item.path) ? "active-link" : ""
+            }`}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
+    </nav>
   );
 }
