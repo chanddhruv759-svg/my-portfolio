@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Navbar as BSNavbar, Nav } from "react-bootstrap";
 import { Link, useLocation } from "react-router";
 import { Sparkles, Moon, Sun } from "lucide-react";
@@ -8,6 +8,12 @@ export function Navbar() {
   const [expanded, setExpanded] = useState(false);
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    if (window.innerWidth < 992) {
+      setExpanded(true);
+    }
+  }, []);
 
   const isActive = (path) => {
     if (path === "/" && location.pathname === "/") return true;

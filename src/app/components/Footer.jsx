@@ -68,7 +68,7 @@ export function Footer() {
               </Link>
             </div>
           </Col>
-          <Col md={4}>
+          {/* <Col md={4}>
             <h5 className="mb-3" style={{ fontSize: "1.1rem" }}>
               Connect With Me
             </h5>
@@ -147,7 +147,7 @@ export function Footer() {
                 <Mail size={20} />
               </a>
             </div>
-          </Col>
+          </Col> */}
         </Row>
         <div
           className="text-center pt-4"
