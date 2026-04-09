@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Navbar as BSNavbar, Nav } from "react-bootstrap";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import { Sparkles, Moon, Sun } from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 
@@ -9,15 +9,13 @@ export function Navbar() {
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
 
-  // ❌ REMOVED your old useEffect (buggy)
-
   const isActive = (path) => {
     if (path === "/" && location.pathname === "/") return true;
     if (path !== "/" && location.pathname.startsWith(path)) return true;
     return false;
   };
 
-  // ✅ Close navbar on route change (mobile UX)
+  // Close navbar on route change (important for mobile)
   useEffect(() => {
     setExpanded(false);
   }, [location.pathname]);
@@ -26,110 +24,85 @@ export function Navbar() {
     <BSNavbar
       expand="lg"
       expanded={expanded}
-      onToggle={(val) => setExpanded(val)} // ✅ FIX
-      className="fixed-top shadow-sm"
+      onToggle={(val) => setExpanded(val)}
+      fixed="top"
+      className="shadow-sm"
       style={{
         backgroundColor: "var(--custom-bg-secondary)",
-        borderBottom: "2px solid var(--custom-border)",
+        borderBottom: "1px solid var(--custom-border)",
       }}
     >
       <Container>
+        {/* 🔹 Brand */}
         <BSNavbar.Brand
           as={Link}
           to="/"
           className="d-flex align-items-center gap-2"
           style={{
-            fontSize: "1.5rem",
+            fontSize: "1.4rem",
             fontWeight: "600",
             color: "#FF6B6B",
             textDecoration: "none",
           }}
         >
-          <Sparkles size={24} fill="#F08080" color="#F08080" />
+          <Sparkles size={22} fill="#FF6B6B" color="#FF6B6B" />
           Dhruv Chand
         </BSNavbar.Brand>
 
-        <div className="d-flex align-items-center gap-2">
+        {/* 🔹 Right Side Controls */}
+        <div className="d-flex align-items-center gap-2 ms-auto">
+          {/* Theme Button */}
           <button
             onClick={toggleTheme}
             className="btn btn-link p-2"
             style={{ color: "#FF6B6B" }}
-            aria-label="Toggle Theme"
           >
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
           </button>
 
+          {/* Toggle Button */}
           <BSNavbar.Toggle
-            aria-controls="basic-navbar-nav"
+            aria-controls="navbar-nav"
             style={{ borderColor: "#FF6B6B" }}
           />
         </div>
 
-        <BSNavbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
-            <Nav.Link
-              as={Link}
-              to="/"
-              onClick={() => setExpanded(false)}
-              className="mx-2 px-3 py-2 rounded-pill"
-              style={{
-                color: isActive("/") ? "#ffffff" : "var(--custom-text-muted)",
-                backgroundColor: isActive("/") ? "#FF6B6B" : "transparent",
-                fontWeight: isActive("/") ? "600" : "500",
-                transition: "all 0.3s ease",
-              }}
-            >
-              Home
-            </Nav.Link>
-
-            <Nav.Link
-              as={Link}
-              to="/about"
-              onClick={() => setExpanded(false)}
-              className="mx-2 px-3 py-2 rounded-pill"
-              style={{
-                color: isActive("/about") ? "#ffffff" : "var(--custom-text-muted)",
-                backgroundColor: isActive("/about") ? "#FF6B6B" : "transparent",
-                fontWeight: isActive("/about") ? "600" : "500",
-                transition: "all 0.3s ease",
-              }}
-            >
-              About
-            </Nav.Link>
-
-            <Nav.Link
-              as={Link}
-              to="/projects"
-              onClick={() => setExpanded(false)}
-              className="mx-2 px-3 py-2 rounded-pill"
-              style={{
-                color: isActive("/projects") ? "#ffffff" : "var(--custom-text-muted)",
-                backgroundColor: isActive("/projects")
-                  ? "#FF6B6B"
-                  : "transparent",
-                fontWeight: isActive("/projects") ? "600" : "500",
-                transition: "all 0.3s ease",
-              }}
-            >
-              Projects
-            </Nav.Link>
-
-            <Nav.Link
-              as={Link}
-              to="/contact"
-              onClick={() => setExpanded(false)}
-              className="mx-2 px-3 py-2 rounded-pill"
-              style={{
-                color: isActive("/contact") ? "#ffffff" : "var(--custom-text-muted)",
-                backgroundColor: isActive("/contact")
-                  ? "#FF6B6B"
-                  : "transparent",
-                fontWeight: isActive("/contact") ? "600" : "500",
-                transition: "all 0.3s ease",
-              }}
-            >
-              Contact
-            </Nav.Link>
+        {/* 🔹 Collapse Menu */}
+        <BSNavbar.Collapse
+          id="navbar-nav"
+          className="mt-3 mt-lg-0 p-3 p-lg-0"
+          style={{
+            backgroundColor: "var(--custom-bg-secondary)",
+            borderRadius: "10px",
+          }}
+        >
+          <Nav className="ms-auto text-center text-lg-start">
+            {[
+              { path: "/", label: "Home" },
+              { path: "/about", label: "About" },
+              { path: "/projects", label: "Projects" },
+              { path: "/contact", label: "Contact" },
+            ].map((item) => (
+              <Nav.Link
+                key={item.path}
+                as={Link}
+                to={item.path}
+                onClick={() => setExpanded(false)}
+                className="mx-lg-2 my-2 my-lg-0 px-3 py-2 rounded-pill"
+                style={{
+                  color: isActive(item.path)
+                    ? "#fff"
+                    : "var(--custom-text-muted)",
+                  backgroundColor: isActive(item.path)
+                    ? "#FF6B6B"
+                    : "transparent",
+                  fontWeight: isActive(item.path) ? "600" : "500",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                {item.label}
+              </Nav.Link>
+            ))}
           </Nav>
         </BSNavbar.Collapse>
       </Container>
